@@ -1,5 +1,5 @@
 
-
+//TODO remove z coordinate from point comparisons when it's not needed
 createTrianglesToHole = {
 	params ["_borderLines", "_terrainLines", "_trenchFillingTriangles"];
 
