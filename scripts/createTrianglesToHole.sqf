@@ -151,7 +151,7 @@ createTrianglesToHole = {
 				
 				
 				{ // compare with other used sides and sides consisting of two times the same point
-					_i = _x;
+					private _i = _x;
 					_cnt = {_i isEqualTo _x} count _usedSides;
 					if (_cnt > 1 || (_i # 0) isEqualTo (_i # 1)) then {
 						_allowed = false;
