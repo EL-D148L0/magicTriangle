@@ -168,10 +168,10 @@ createTrianglesToHole = {
 				_sa = (_thisPT # 0) distance2D (_thisPT # 1); 
 				_sb = (_thisPT # 1) distance2D (_thisPT # 2); 
 				_sc = (_thisPT # 2) distance2D (_thisPT # 0);
-				if ((_sb == 0) || (_sc == 0)) then { //checking this because once i got an error zero divisor on the angle calculation
+				/*if ((_sb == 0) || (_sc == 0)) then { //checking this because once i got an error zero divisor on the angle calculation -- probably fixed, removing this code
 					_allowed = false;
 					continue;
-				};
+				};*/
 				_angle1 = acos (((_sb ^ 2) + (_sc ^ 2) - (_sa ^ 2)) / (2 * _sb * _sc));
 				if (_angle1 < 3 || _angle1 > 177) then {
 					_allowed = false;

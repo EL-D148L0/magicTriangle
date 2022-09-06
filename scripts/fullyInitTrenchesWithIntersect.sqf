@@ -230,6 +230,8 @@ initTrench = {
 		} foreach _openLines;*/
 		{_x sort true} foreach _terrainLines;
 
+
+		// getTerrainHeight is inaccurate and returns slightly different results after a neighboring point has been modified. here i am overriding the z value of places that have been measured before with the old value to prevent them being seen as seperate points
 		private _tl2d = _terrainLines apply {[[_x#0#0, _x#0#1], [_x#1#0, _x#1#1]]};
 		{
 			// Current result is saved in variable _x
