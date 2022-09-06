@@ -8,7 +8,7 @@
 [] spawn {
 	 
 	//_this = [[tre0, tre1, tre2, tre3, tre4, tre5, tre6, tre7, tre8, tre9, tre10, tre11]]; 
-	_this = [[oblist # 0]]
+	_this = [[oblist # 0]];
 
 	// testing setup end
 
@@ -248,6 +248,8 @@
 	//modification was here
 	
 	deb_msg6 = + _terrainLines;
+	deb_msg7 = + _blFromConfig;
+	deb_msg8 = + _tftFromConfig;
 	deb_msg4 = _trianglesToDelete;
 	
 	_trenchPoints = [];
@@ -271,3 +273,4 @@
 	"done"
 
 };
+_trenchP
