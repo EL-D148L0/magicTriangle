@@ -67,7 +67,7 @@ _missing;
 
 
 
-
+// 2 und 7
 
 
 private _a = getTerrainHeight [3202.5,11921.25]; 

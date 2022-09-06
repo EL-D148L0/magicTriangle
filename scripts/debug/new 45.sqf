@@ -219,8 +219,34 @@
 		
 		
 		deb_msg5 = + _terrainLines;
-		//unsure about this part
-		_terrainLines = _terrainLines + _openLines;
+		//unsure about this part{_x sort true} foreach _terrainLines;
+
+		private _tl2d = _terrainLines apply {[[_x#0#0, _x#0#1], [_x#1#0, _x#1#1]]};
+		{
+			// Current result is saved in variable _x
+			if (!([[_x#0#0, _x#0#1], [_x#1#0, _x#1#1]] in _tl2d)) then {
+				private _thisLine = _x;
+				{
+					if ([_thisLine#0#0,_thisLine#0#1] isEqualTo (_x#0 select [0,2])) then {
+						_x set [0, _thisLine#0];
+					};
+					if ([_thisLine#0#0,_thisLine#0#1] isEqualTo (_x#1 select [0,2])) then {
+						_x set [1, _thisLine#0];
+					};
+					if ([_thisLine#1#0,_thisLine#1#1] isEqualTo (_x#0 select [0,2])) then {
+						_x set [0, _thisLine#1];
+					};
+					if ([_thisLine#1#0,_thisLine#1#1] isEqualTo (_x#1 select [0,2])) then {
+						_x set [1, _thisLine#1];
+					};
+				} forEach _terrainlines;
+				_terrainLines pushBack _x;
+			};
+		} forEach _openLines;
+
+
+		// _terrainLines append _openLines;
+		// _terrainLines = _terrainLines arrayIntersect _terrainLines;
 	} foreach _clashingCoveredTrenches;
 
 
