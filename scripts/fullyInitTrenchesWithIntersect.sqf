@@ -176,7 +176,7 @@ initTrench = {
 		
 		_PTMForListToNotLower append (_PTMForList arrayIntersect (_thisCTLEntry # 1));
 		
-		_clashTP = _PTMForList arrayIntersect ((_thisCTLEntry # 5) + (_thisCTLEntry # 1));
+		private _clashTP = _PTMForList arrayIntersect ((_thisCTLEntry # 5) + (_thisCTLEntry # 1));
 		private _deletedTriangles = [];
 		{
 			private _thisTrianglePos = _x # 0;
@@ -189,9 +189,9 @@ initTrench = {
 			};
 		} foreach (_thisCTLEntry # 2);
 		
-		_openLines = [];
-		_openPoints = [];
-		_deletedTrianglesLines = [];
+		private _openLines = [];
+		private _openPoints = [];
+		private _deletedTrianglesLines = [];
 		{
 			private _lines = [[_x # 0, _x # 1], [_x # 1, _x # 2], [_x # 2, _x # 0]];
 			{_x sort true} foreach _lines;
@@ -212,8 +212,8 @@ initTrench = {
 		
 		
 		// this part removes all terrain lines that lie in the affected area
-		_TPForTLRemoval = _allAffectedTP arrayIntersect ((_thisCTLEntry # 1));
-		_terrainLinesNew = [];
+		private _TPForTLRemoval = _allAffectedTP arrayIntersect ((_thisCTLEntry # 1));
+		private _terrainLinesNew = [];
 		{
 			if (!((((_x # 0) select [0,2]) in _TPForTLRemoval) || (((_x # 1) select [0,2]) in _TPForTLRemoval))) then {
 				_terrainLinesNew append [_x];
@@ -229,8 +229,33 @@ initTrench = {
 			_terrainLines pushBackUnique _x;
 		} foreach _openLines;*/
 		{_x sort true} foreach _terrainLines;
-		_terrainLines append _openLines;
-		_terrainLines = _terrainLines arrayIntersect _terrainLines;
+
+		private _tl2d = _terrainLines apply {[[_x#0#0, _x#0#1], [_x#1#0, _x#1#1]]};
+		{
+			// Current result is saved in variable _x
+			if (!([[_x#0#0, _x#0#1], [_x#1#0, _x#1#1]] in _tl2d)) then {
+				private _thisLine = _x;
+				{
+					if ([_thisLine#0#0,_thisLine#0#1] isEqualTo (_x#0 select [0,2])) then {
+						_x set [0, _thisLine#0];
+					};
+					if ([_thisLine#0#0,_thisLine#0#1] isEqualTo (_x#1 select [0,2])) then {
+						_x set [1, _thisLine#0];
+					};
+					if ([_thisLine#1#0,_thisLine#1#1] isEqualTo (_x#0 select [0,2])) then {
+						_x set [0, _thisLine#1];
+					};
+					if ([_thisLine#1#0,_thisLine#1#1] isEqualTo (_x#1 select [0,2])) then {
+						_x set [1, _thisLine#1];
+					};
+				} forEach _terrainlines;
+				_terrainLines pushBack _x;
+			};
+		} forEach _openLines;
+
+
+		// _terrainLines append _openLines;
+		// _terrainLines = _terrainLines arrayIntersect _terrainLines;
 		
 		coveredTrenchList set [_x, [[], [], [], [], [], [], [], []]];
 	} foreach _clashingCoveredTrenches;
