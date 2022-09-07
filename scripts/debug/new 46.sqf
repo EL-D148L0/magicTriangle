@@ -66,11 +66,17 @@ lines = [[[2012,5588,6.03],[2008,5588,5.98]],[[2004,5588,5.94],[2008,5588,5.98]]
 
 
 
-{_x #1 setObjectTextureGlobal [0, "#(rgb,8,8,3)color(0.1,0.2,0.1,0.57)"];} foreach coveredTrenchList #0#2; 
+
+
+{
+	{
+		_x#1 setObjectTextureGlobal [0, "#(rgb,8,8,3)color(0.1,0.2,0.1,0.57)"];
+	} forEach _x # 2;
+} foreach coveredTrenchList; 
 
 
 lines = deb_msg6 apply {  
- _result = [(ASLToAGL (_x # 0)) vectoradd [0,0,0.2], (ASLToAGL (_x # 1)) vectoradd [0,0,0.2], [0.2, 0, 1, 1]];  
+ _result = [(ASLToAGL (_x # 0)) vectoradd [0,0,0.4], (ASLToAGL (_x # 1)) vectoradd [0,0,0.4], [0.2, 0, 1, 1]];  
  + _result  
 };  
   

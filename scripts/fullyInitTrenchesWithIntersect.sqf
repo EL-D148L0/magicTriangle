@@ -193,6 +193,39 @@ initTrench = {
 				_deleteThisTriangle = _deleteThisTriangle || (_x inPolygon _thisTrianglePos);
 			} forEach _bpFromConfig3d;
 			
+			
+			if (!_deleteThisTriangle) then {
+				//this is probably expensive processing wise but it only gets run once per triangle
+				//ellipse check cause i can't think of anything cheaper that makes sense
+				{
+					private _side = [_thisTrianglePos2d#0, _thisTrianglePos2d#1];
+					private _sideLength = (_side#0) distance2D (_side#1);
+					private _lA = (_side#0) distance2D _x;
+					private _lB = (_side#1) distance2D _x;
+					if ((_lA + _lB - _sideLength) < 0.2) then {
+						_deleteThisTriangle = true;
+					} else {
+						_side = [_thisTrianglePos2d#0, _thisTrianglePos2d#2];
+						_sideLength = (_side#0) distance2D (_side#1);
+						_lA = (_side#0) distance2D _x;
+						_lB = (_side#1) distance2D _x;
+						if ((_lA + _lB - _sideLength) < 0.2) then {
+							_deleteThisTriangle = true;
+						} else {
+							_side = [_thisTrianglePos2d#1, _thisTrianglePos2d#2];
+							_sideLength = (_side#0) distance2D (_side#1);
+							_lA = (_side#0) distance2D _x;
+							_lB = (_side#1) distance2D _x;
+							if ((_lA + _lB - _sideLength) < 0.2) then {
+								_deleteThisTriangle = true;
+							};
+						};
+					};
+					if (_deleteThisTriangle) then {break;};
+				} forEach _bpFromConfig3d;
+			};
+
+			
 			if (_deleteThisTriangle) then {
 				_deletedTriangles append [_thisTrianglePos];
 				_trianglesToDelete append [_x # 1];

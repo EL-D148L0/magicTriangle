@@ -34,7 +34,7 @@ deb_msg9 = [deb_msg7, deb_msg6, deb_msg8] call createTrianglesToHole;
 
 {
 	// Current result is saved in variable _x
-	(_x # 1) setPosWorld ((getPosWorld (_x # 1)) vectorAdd [0,0,0.2]);
+	(_x # 1) setPosWorld ((getPosWorld (_x # 1)) vectorAdd [0,0,0.4]);
 } forEach deb_msg9;
 
 
