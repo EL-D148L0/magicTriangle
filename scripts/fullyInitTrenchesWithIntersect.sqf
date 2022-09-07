@@ -22,37 +22,9 @@ initTrench = {
 	[] call compile preprocessFileLineNumbers "MagicTriangle\scripts\createHoleInGround.sqf";
 	//[] call compile preprocessFileLineNumbers "MagicTriangle\scripts\getTerrainPointsToBeLowered.sqf"; // this new thing does not work yet
 
-	_blFromConfig = [];
-	_tftFromConfig = [];
-	_ocFromConfig = [];
-	{
-		_thisTrench = _x;
-		_blNames = getArray ((configOf _thisTrench) >> "trench_borderLines");
-		_blPositions = [];
-		{
-			_thisblCoords = [_thisTrench modelToWorldWorld (_thisTrench selectionPosition [_x # 0, "Memory"]), _thisTrench modelToWorldWorld (_thisTrench selectionPosition [_x # 1, "Memory"])];
-			_blPositions append [_thisblCoords];
-		} foreach _blNames;
-		
-		_tftNames = getArray ((configOf _thisTrench) >> "trench_fillingTriangles");
-		_tftPositions = [];
-		{
-			_thistftCoords = [_thisTrench modelToWorldWorld (_thisTrench selectionPosition [_x # 0, "Memory"]), _thisTrench modelToWorldWorld (_thisTrench selectionPosition [_x # 1, "Memory"]), _thisTrench modelToWorldWorld (_thisTrench selectionPosition [_x # 2, "Memory"])];
-			_tftPositions append [_thistftCoords];
-		} foreach _tftNames;
-		
-		_ocNames = getArray ((configOf _thisTrench) >> "trench_openCorners");
-		_ocPositions = [];
-		{
-			_thisocCoords = (_thisTrench modelToWorldWorld (_thisTrench selectionPosition [_x, "Memory"]));
-			_ocPositions append [_thisocCoords];
-		} foreach _ocNames;
-		
-		_blFromConfig append _blPositions;
-		_tftFromConfig append _tftPositions;
-		_ocFromConfig append _ocPositions;
-		
-	} foreach _trenches;
+
+
+	([_trenches] call ELD_fnc_getConfigInfo) params ["_blFromConfig", "_tftFromConfig", "_ocFromConfig"];
 
 	//oc stands for open corner
 	_analysingOC = ((count _ocFromConfig) > 0);

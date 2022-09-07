@@ -22,6 +22,7 @@ class CfgFunctions
 			class initGlobals {
 				preInit = 1;
 			};
+			class getConfigInfo {};
 		};
 	};
 };
