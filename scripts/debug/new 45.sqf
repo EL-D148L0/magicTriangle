@@ -296,13 +296,26 @@
 		} forEach _openLines;
 
 
+		
+
+
 		// _terrainLines append _openLines;
 		// _terrainLines = _terrainLines arrayIntersect _terrainLines;
 	} foreach _clashingCoveredTrenches;
 
 
-
-	
+	// if ((count _clashingCoveredTrenches) > 0) then {
+	// 	{
+	// 		private crossing = false;
+	// 		private _thisTL = _x;
+	// 		{
+	// 			if (((_thisTL#0) inPolygon _x) || ((_thisTL#1) inPolygon _x)) then {
+	// 				crossing = true;
+	// 				break;
+	// 			};
+	// 		} forEach _tftFromConfig;
+	// 	} forEach _terrainLines;
+	// };
 
 
 
