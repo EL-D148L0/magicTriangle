@@ -177,11 +177,23 @@ initTrench = {
 		_PTMForListToNotLower append (_PTMForList arrayIntersect (_thisCTLEntry # 1));
 		
 		private _clashTP = _PTMForList arrayIntersect ((_thisCTLEntry # 5) + (_thisCTLEntry # 1));
+		
+		private _bpFromConfig3d = [];
+		{
+			_bpFromConfig3d pushBackUnique (_x#0);
+			_bpFromConfig3d pushBackUnique (_x#1);
+		} foreach _blFromConfig;
+
 		private _deletedTriangles = [];
 		{
 			private _thisTrianglePos = _x # 0;
 			private _thisTrianglePos2d = _thisTrianglePos apply {_x select [0, 2];};
-			if ((count (_clashTP arrayIntersect _thisTrianglePos2d)) > 0) then {
+			private _deleteThisTriangle = ((count (_clashTP arrayIntersect _thisTrianglePos2d)) > 0);
+			{
+				_deleteThisTriangle = _deleteThisTriangle || (_x inPolygon _thisTrianglePos);
+			} forEach _bpFromConfig3d;
+			
+			if (_deleteThisTriangle) then {
 				_deletedTriangles append [_thisTrianglePos];
 				_trianglesToDelete append [_x # 1];
 			} else {
@@ -228,6 +240,7 @@ initTrench = {
 		{
 			_terrainLines pushBackUnique _x;
 		} foreach _openLines;*/
+
 		{_x sort true} foreach _terrainLines;
 
 

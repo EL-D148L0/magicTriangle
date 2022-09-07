@@ -154,6 +154,7 @@
 	
 	
 	private _PTMForListToNotLower = [];
+
 	
 	// this is all done assuming that the trench objects do not intersect or get too close to each other or anything
 	_trianglesToDelete = [];
@@ -174,10 +175,27 @@
 		
 		_clashTP = _PTMForList arrayIntersect ((_thisCTLEntry # 5) + (_thisCTLEntry # 1));
 		private _deletedTriangles = [];
+		private _tl2d = _terrainLines apply {[[_x#0#0, _x#0#1], [_x#1#0, _x#1#1]]};
+		private _tlp2d = [];
+		{
+			_tlp2d pushBackUnique _x#0;
+			_tlp2d pushBackUnique _x#1;
+		} foreach _tl2d;
+		private _bpFromConfig3d = [];
+		{
+			_bpFromConfig3d pushBackUnique (_x#0);
+			_bpFromConfig3d pushBackUnique (_x#1);
+		} foreach _blFromConfig;
 		{
 			private _thisTrianglePos = _x # 0;
 			private _thisTrianglePos2d = _thisTrianglePos apply {_x select [0, 2];};
-			if ((count (_clashTP arrayIntersect _thisTrianglePos2d)) > 0) then {
+			// private _deleteThisTriangle = ((count (_clashTP arrayIntersect _thisTrianglePos2d)) > 0) || ((count (_tlp2d arrayIntersect _thisTrianglePos2d)) > 0);
+			private _deleteThisTriangle = ((count (_clashTP arrayIntersect _thisTrianglePos2d)) > 0);
+			{
+				_deleteThisTriangle = _deleteThisTriangle || (_x inPolygon _thisTrianglePos);
+			} forEach _bpFromConfig3d;
+			
+			if (_deleteThisTriangle) then {
 				_deletedTriangles append [_thisTrianglePos];
 				_trianglesToDelete append [_x # 1];
 			} else {
@@ -218,10 +236,11 @@
 		_terrainLines = _terrainLinesNew;
 		
 		
+		//unsure about this part
+		{_x sort true} foreach _terrainLines;
 		deb_msg5 = + _terrainLines;
-		//unsure about this part{_x sort true} foreach _terrainLines;
 
-		private _tl2d = _terrainLines apply {[[_x#0#0, _x#0#1], [_x#1#0, _x#1#1]]};
+		_tl2d = _terrainLines apply {[[_x#0#0, _x#0#1], [_x#1#0, _x#1#1]]};
 		{
 			// Current result is saved in variable _x
 			if (!([[_x#0#0, _x#0#1], [_x#1#0, _x#1#1]] in _tl2d)) then {
